@@ -1,25 +1,23 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const employeeRoutes = require('./routes/EmployeesRoute.js');
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
+// Routes
+app.use('/employees', employeeRoutes);
 app.get('/', (req, res) => {
-    res.send('Hello from Api Server!');
+  res.send('Welcome to the Employee Management API \n to start using the API, please navigate to /employees');
 });
 
-
-
-
-
-
-
-
-
-
+// Connect to MongoDB and start the server
 mongoose.connect(process.env.MONGODB_URI).then(() => {
     console.log('Connected to MongoDB');
     app.listen(PORT, () => {
